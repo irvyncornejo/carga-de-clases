@@ -1,0 +1,6 @@
+class Menu{
+  constructor(){
+
+  }
+  
+}

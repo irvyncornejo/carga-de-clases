@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Texto ayuda para planeaciones</title>
+    <style>
+      body{
+        background-color: #F1F1F1;
+      }
+      .row{
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }
+      .form-select{
+        margin: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="selector"> 
+      <select id="select" class="form-select">
+        <option value="" selected>Selecciona</option>
+        <option value="Recordar">Recordar [Inferior]</option>
+        <option value="Comprender">Comprender</option>
+        <option value="Aplicar">Aplicar</option>
+        <option value="Analizar">Analizar</option>
+        <option value="Evaluar">Evaluar</option>
+        <option value="Crear">Crear [Superior]</option>
+      </select>
+    </div>
+    <div id="root"> 
+      
+    </div>
+  </body>
+  <script>
+    const select = document.getElementById('select')
+    select.addEventListener('change', () => {
+      const valor = document.getElementById('select').value
+      const eva = text(valor.toLowerCase()) 
+      document.getElementById("root").innerHTML = eva
+    })
+
+
+    const getData = (verb) => {
+      const taxonomia = {
+        'recordar': {
+          'definicion': `Recordar hechos/datos sin necesidad de entender. 
+                        Se muestra material aprendido previamente mediante el recuerdo 
+                        de términos, conceptos básicos y respuestas.`,
+          'palabras': `Elegir observar mostrar
+                      Copiar omitir deletrear
+                      Definir rastrear afirmar
+                      Decir cuándo duplicar
+                      Citar repetir qué
+                      leer relacionar nombrar
+                      Quién listar repetir
+                      Recitar escribir localizar
+                      Cómo dónde Memorizar
+                      Por qué reconocer `,
+          'acciones': `Describir
+                      Encontrar
+                      Identificar
+                      Listar
+                      Localizar
+                      Nombrar
+                      Reconocer
+                      Recuperar`,
+          'resultado': `Definición
+                        Hechos
+                        Etiquetado
+                        Listado
+                        Cuestionario
+                        Reproducción
+                        Test
+                        Cuaderno
+                        Fotocopia`,
+          'preguntas': `¿Puedes enumerar…?
+                        ¿Puedes recordar…?
+                        ¿Puedes seleccionar…?
+                        ¿Cómo ocurrió….?
+                        ¿Cómo es…?
+                        ¿Cómo describirías…?
+                        ¿Podrías explicar…?
+                        ¿Cómo mostrarías…?
+                        ¿Qué es…?
+                        ¿Cuál….?
+                        ¿Quién fue...?
+                        ¿Quiénes fueron los principales….?
+                        ¿Por qué…?`,
+          'color': 'primary',
+          'color-texto': 'white'
+        },
+        'comprender': {
+          'definicion': `Mostrar entendimiento a la hora
+                        de encontrar información del texto.
+                        Se demuestra comprensión básica
+                        de hechos e ideas.`,
+          'palabras': `Preguntar esquematizar
+                      Generalizar predecir
+                      Clasificar dar ejemplos
+                      Comparar relacionar
+                      Contrastar ilustrar
+                      Parafrasear demostrar
+                      Informar discutir
+                      Inferir revisar
+                      Interpretar mostrar
+                      Explicar resumir
+                      Expresar observar
+                      Traducir`,
+          'acciones': `Clasificar
+                      Comparar
+                      Ejemplificar
+                      Explicar
+                      Inferir
+                      Interpretar
+                      Parafrasear
+                      Resumir`,
+          'resultado': `Colección
+                        Ejemplos
+                        Explicación
+                        Etiquetado
+                        Listado
+                        Esquema
+                        Cuestionario
+                        Resumen
+                        Muestra y cuenta`,
+          'preguntas': `¿Puedes explicar que está ocurriendo….?
+                        ¿Cómo clasificarías…?
+                        ¿Cómo compararías/contrastarías…?
+                        ¿Cómo podrías parafrasear el
+                        ¿significado de….?
+                        ¿Cómo resumirías…?
+                        ¿Qué puedes decir sobre…?
+                        ¿Cuál es la mejor respuesta…?
+                        ¿Qué afirmaciones apoyan…?
+                        ¿Podrías afirmar o interpretar en tus propias palabras…?`,
+          'color': 'secondary',
+          'color-texto': 'white'
+        },
+        'aplicar':{
+          'definicion': `Usar en una nueva situación.
+                        Resolver problemas mediante la
+                        aplicación de conocimiento, hechos
+                        o técnicas previamente adquiridas
+                        en una manera diferente.`,
+          'palabras': `Actuar emplear practicar
+                      Identificar seleccionar agrupar
+                      Calcular elegir resumir
+                      Entrevistar planear desarrollar
+                      Enseñar transferir interpretar
+                      Usar demostrar categorizar
+                      Conectar dramatizar construir
+                      Planear manipular resolver
+                      Simular seleccionar unir
+                      Hacer uso organizar`,
+          'acciones': `Desempeñar
+                      Ejecutar
+                      Implementar
+                      Usar
+                      Emplear
+                      Realizar`,
+          'resultado': `Demostración
+                        Diario
+                        Ilustraciones
+                        Entrevista
+                        Interpretación
+                        Simulación
+                        Presentación
+                        Dibujo `,
+          'preguntas': `¿Cómo usarías….?
+                        ¿Qué ejemplos sobre….puedes encontrar?
+                        ¿Cómo organizarías… para presentar…?
+                        ¿Cómo aplicarías lo que has aprendido para desarrollar…?
+                        ¿Qué enfoque usarías para…?
+                        ¿Qué aspectos seleccionarías para mostrar…?
+                        ¿Qué preguntas harías en una entrevista a…?`,
+          'color': 'success',
+          'color-texto': 'white'
+        },
+        'analizar':{
+          'definicion': `Examinar en detalle. Examinar y
+                        descomponer la información en
+                        partes identificando los motivos o
+                        causas; realizar inferencias y
+                        encontrar evidencias que apoyen
+                        las generalizaciones.`,
+          'palabras': `Examinar priorizar encontrar
+                      Centrarse agrupar asumir
+                      Razonar destacar causa-efecto
+                      Inferencia separar aislar
+                      Comparar distinguir reorganizar
+                      Dividir motivar diferenciar
+                      Buscar similitudes descomponer
+                      Inspeccionar Investigar
+                      Simplificar categorizar
+                      Preguntar ordenar
+                      Elegir poner a prueba
+                      Establecer observar
+                      Encuestar`,
+          'acciones': `Atribuir
+                      Deconstruir
+                      Integrar
+                      Organizar
+                      Esquematizar
+                      Estructurar`,
+          'resultado': `Reseña
+                        Gráfica
+                        Lista de control
+                        Base de datos
+                        Gráfico
+                        Informe
+                        Encuesta
+                        Hoja de cálculo`,
+          'preguntas': `¿Cuáles son las partes o rasgos de…?
+                        ¿En qué aspectos está….
+                        ¿Relacionado/a con…?
+                        ¿Por qué opinas que…?
+                        ¿Qué motivo hay para…?
+                        ¿Puedes hacer un listado de las partes…?
+                        ¿Qué ideas justifican…?
+                        ¿Qué conclusiones extraes de…?
+                        ¿Qué evidencias de…. encuentras?
+                        ¿Puedes distinguir entre…?
+                        ¿Cuál es la relación entre…?
+                        ¿Cuál es la función de…?`,
+          'color': 'warning',
+          'color-texto': 'dark'
+        },
+        'evaluar':{
+          'definicion': `Justificar. Presentar y defender
+                        opiniones realizando juicios sobre
+                        la información, la validez de ideas o
+                        la calidad de un trabajo basándose
+                        en una serie de criterios.`,
+          'palabras': `Medir opinar argumentar
+                      Evaluar premiar testar
+                      Decidir debatir convencer
+                      Apoyar explicar seleccionar
+                      Defender comparar deducir
+                      Justificar percibir recomendar
+                      Criticar probar estimar
+                      Juzgar influir persuadir
+                      Valorar demostrar `,
+          'acciones': `Atribuir
+                      Comprobar
+                      Deconstruir
+                      Integrar
+                      Organizar
+                      Esquematizar
+                      Estrucutrar`,
+          'resultado': `Reseña
+                        Gráfica
+                        Base de datos
+                        Informe
+                        Hoja de cálculo
+                        Encuesta`,
+          'preguntas': `¿Estás de acuerdo con…?
+                        ¿Cuál es tu opinión sobre...?
+                        ¿Cómo comprobarías…?
+                        ¿Sería mejor si…?
+                        ¿Por qué ese personaje…?
+                        ¿Cómo valorarías…?
+                        ¿Cómo determinarías…?
+                        ¿Cómo priorizarías…?
+                        ¿Qué información podrías para apoyar tu punto de vista?
+                        ¿Cómo justificarías…?
+                        ¿Qué datos te llevaron a esa conclusión?
+                        ¿Qué seleccionarías para…?
+                        ¿Qué elección hubieras tomado si…?`,
+          'color': 'info',
+          'color-texto': 'dark'
+        },
+        'crear': {
+          'definicion': `Cambiar o crear algo nuevo.
+                        Recopilar información de una
+                        manera diferente combinando sus
+                        elementos en un nuevo modelo o
+                        proponer soluciones alternativas`,
+          'palabras': `Adaptar estimar planear
+                      Añadir experimentar testar
+                      Construir extender sustituir
+                      Cambiar formular reescribir
+                      Combinar hipotetizar suponer
+                      Componer innovar teorizar
+                      Compilar mejorar pensar
+                      Componer maximizar simplificar
+                      Crear minimizar proponer
+                      Descubir modelar visualizar
+                      Diseñar modificar Desarrollar
+                      originar Elaborar transformar`,
+          'acciones': `Construir
+                      Diseñar
+                      Trazar
+                      Idear
+                      Planificar
+                      Producir
+                      Hacer`,
+          'resultado': `Película
+                        Juego
+                        Dibujar
+                        Plan
+                        Proyecto
+                        Canción
+                        Historia
+                        Producto audiovisual`,
+          'preguntas': `¿Qué cambios harías para…?
+                        ¿Cómo mejorarías…?
+                        ¿Qué pasaría si…?
+                        ¿Podrías proponer una alternativa?
+                        ¿Puedes elaborar….basándote en….?
+                        ¿De qué forma evaluarías…?
+                        ¿Podrías formular una teoría alternativa?
+                        ¿Qué harías para maximizar/minimizar…?
+                        ¿Cómo pondrías a prueba…?
+                        ¿Podrías construir un modelo que cambie…?
+                        ¿Se te ocurre un modo original para…?
+                        ¿Cómo cambiarías el guión/plan?
+                        ¿Cómo adaptarías… para…?`,
+          'color': 'light',
+          'color-texto': 'dark'
+        }
+      }
+      return taxonomia[`${verb}`]
+    }
+
+    const text = (verb) => {
+      const data = getData(verb)
+      return `
+          <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header text-${data['color-texto']} bg-${data['color']}">
+              Definición
+            </div>
+            <div class="card-body">
+              <span>${data['definicion']}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header text-${data['color-texto']} bg-${data['color']}">
+              <span>Palabras clave</span>
+            </div>
+            <div class="card-body">
+              <span>${data['palabras']}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header text-${data['color-texto']} bg-${data['color']}">
+              <span>Acciones</span>
+            </div>
+            <div class="card-body">
+              <span>${data['acciones']}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-header text-${data['color-texto']} bg-${data['color']}">
+              <span>Resultados</span>
+            </div>
+            <div class="card-body">
+              <span>${data['resultado']}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header text-${data['color-texto']} bg-${data['color']}">
+              <span>Preguntas</span>
+            </div>
+            <div class="card-body">
+              <span>${data['preguntas']}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+      `
+    }
+    const replaceText = (text) => {
+      let textT = text
+      while(textT.includes(' ')){
+        textT = textT.replace(' ', '-')
+      }
+      return textT
+    }
+  </script>
+</html>
