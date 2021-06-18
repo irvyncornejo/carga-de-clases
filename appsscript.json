@@ -4,5 +4,12 @@
   },
   "exceptionLogging": "STACKDRIVER",
   "oauthScopes": ["https://www.googleapis.com/auth/script.container.ui", "https://www.googleapis.com/auth/spreadsheets.currentonly", "https://www.googleapis.com/auth/spreadsheets"],
-  "runtimeVersion": "V8"
+  "runtimeVersion": "V8",
+  "sheets": {
+    "macros": [{
+      "menuName": "ins",
+      "functionName": "ins",
+      "defaultShortcut": "Ctrl+Alt+Shift+3"
+    }]
+  }
 }

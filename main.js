@@ -2,17 +2,14 @@ const defineSheet = () => SpreadsheetApp.getActiveSheet()
 const getUi = () => SpreadsheetApp.getUi()
 
 const onOpen = (e) => {
+  const ui = getUi()
   try {
     const ss = defineSheet()
     for(cell in ranges){
       insertOpcions(ss, ranges[cell], Object.keys(examples)[cell])
       ss.getRange(ranges[cell]).setValue(Object.keys(examples)[cell])
     }
-    ui = getUi()
-    ui.createMenu('Taxonomia')
-      .addItem('Ver ayuda', 'openHelp')
-      .addToUi()
-    
+    const menu = new Menu(values, ui).create()
   }catch(e){
     ui.alert(`Error: ${e}`)
   }
