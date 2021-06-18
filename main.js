@@ -18,7 +18,6 @@ const onOpen = (e) => {
 const onEdit = (e) => {
   const range = e['range'].getA1Notation()
   const oldValue = e['oldValue'].trim()
-  Logger.log(`${range} | ${oldValue}`)
   const keys = Object.keys(examples)
   if (ranges.includes(range) && keys.includes(oldValue)){
     viewExample(range, oldValue)
