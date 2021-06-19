@@ -43,7 +43,41 @@ class Row{
 }
 
 class Send{
-  constructor(){}
+  constructor(dataRequest){
+    this.dataRequest = dataRequest
+  }
+  doRequest(){
+    const access_token=ScriptApp.getOAuthToken()
+    const url = "https://script.googleapis.com/v1/scripts/AKfycbyIpEaCY0AndtPsVIp6ncRRgZhdIws22iS33giEveI:run"
+    const headers = {
+      "Authorization": "Bearer " + access_token,
+      "Content-Type": "application/json"
+    }
+    const payload = {
+      'function': this.dataRequest.nameFuncion,
+      'parameters': this.dataRequest.parameters,
+      devMode: false
+    }
+    const res = UrlFetchApp.fetch(url, {
+      method: this.dataRequest.method,
+      headers: headers,
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    })  
+    return JSON.parse(res)
+    }
+}
+
+const sendSession = () =>{
+  const dataRequest = {
+    nameFuncion: 'readPeticion',
+    parameters: [{
+      id: `${SpreadsheetApp.getActiveSpreadsheet().getId()}`, 
+      name: defineSheet().getSheetName()
+    }],
+    method: 'post'
+  }
+  const req = new Send(dataRequest).doRequest()
 }
 
 const insertVideo = () => new Row('Vídeo').create()

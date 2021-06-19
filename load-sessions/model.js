@@ -1,7 +1,7 @@
 class Session{
-  constructor(ssId='1RLCFNbERRAE1W4QBtMt3LHKmemFV0oHmHzQTxVuWgts', numberSession='Hoja 1'){
-    this.numberSession = numberSession
-    this.ss = SpreadsheetApp.openById(ssId)
+  constructor(e){
+    this.numberSession = e.name
+    this.ss = SpreadsheetApp.openById(e.id)
   }
   create(){
     const dataSession = this.getSession()
