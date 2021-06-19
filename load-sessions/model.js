@@ -1,11 +1,11 @@
 class Session{
-  constructor(ssId='1RLCFNbERRAE1W4QBtMt3LHKmemFV0oHmHzQTxVuWgts', numberSession='Taller | Hoja 2'){
+  constructor(ssId='1RLCFNbERRAE1W4QBtMt3LHKmemFV0oHmHzQTxVuWgts', numberSession='Hoja 1'){
     this.numberSession = numberSession
     this.ss = SpreadsheetApp.openById(ssId)
   }
   create(){
     const dataSession = this.getSession()
-    Logger.log(dataSession)
+    return dataSession
   }
   validate(){
     const sheetData = this.ss.getSheetByName(this.numberSession)
@@ -45,8 +45,8 @@ class Session{
   
   trasnformLinksImg(links){
     const linksArray = this.splitLinks(links)
-    const linksT = [] 
-    linksArray.forEach(link => {
+    const linksT = []
+    linksArray.forEach(link =>{
         if(link.includes('drive.google.com')){
           const indices = ['d/', '/view'].map(ind => link.indexOf(ind))
           const idImage = link.substring(indices[0]+2,indices[1])
@@ -62,12 +62,4 @@ class Session{
   splitLinks(links){
     return links.includes(',') ? links.split(',') : [links]
   }
-
-  update(){
-    // TODO CONEXION CON LA BASE DE DATOS PARA AÑADIR EL VALOR DE LAS CLASES
-  }
 }
-
-const test = () => new Session().create()
-
-
