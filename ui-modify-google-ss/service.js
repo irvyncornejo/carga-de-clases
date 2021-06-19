@@ -42,6 +42,10 @@ class Row{
   }
 }
 
+class Send{
+  constructor(){}
+}
+
 const insertVideo = () => new Row('Vídeo').create()
 const insertImage = () => new Row('Diagrama|Imagen').create()
 const insertDoc = () => new Row('Documento').create()
