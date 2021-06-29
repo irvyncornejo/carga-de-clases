@@ -34,6 +34,8 @@ class DB{
   }
   deteleSession(){
     // TODO
+    // Añadir una lista de personas que puedan borrar
+    return null
   }
   updateSession(data){
     this.connect.updateDocument(`clasesMuestra3/${data.session}`, {data})
