@@ -22,6 +22,15 @@ const onEdit = (e) => {
   if (ranges.includes(range) && keys.includes(oldValue)){
     viewExample(range, oldValue)
   }
+  if(range === 'C5' || range === 'D5'){
+    setNameSheet()
+  }
+}
+
+const setNameSheet = () =>{
+  const ss = defineSheet()
+  const values = ['C5' , 'D5'].map(range => ss.getRange(range).getValue())
+  ss.setName(`${values[1]}-${values[0]}`)
 }
 
 const openHelp = () => {

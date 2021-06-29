@@ -1,7 +1,7 @@
 class Session{
-  constructor(ssId='1RLCFNbERRAE1W4QBtMt3LHKmemFV0oHmHzQTxVuWgts', numberSession='Hoja 1'){
-    this.numberSession = numberSession
-    this.ss = SpreadsheetApp.openById(ssId)
+  constructor(e){
+    this.numberSession = e.name
+    this.ss = SpreadsheetApp.openById(e.id)
   }
   create(){
     const dataSession = this.getSession()
@@ -21,9 +21,10 @@ class Session{
       period: data.getRange('F2').getValue(),
       grade: data.getRange('F3').getValue(),
       hours: data.getRange('F5').getValue(),
-      purposes: data.getRange('C7').getValue()
+      title: data.getRange('C6').getValue(),
+      purposes: data.getRange('C8').getValue()
     }
-    dataSession['content'] = this.process(data.getRange(`B16:C${lastRow}`).getValues())
+    dataSession['content'] = this.process(data.getRange(`B17:C${lastRow}`).getValues())
     return dataSession
   }
   process(content){
@@ -33,7 +34,7 @@ class Session{
         const links = this.trasnformLinksImg(value[1])
         contentSession[`${value[0].toLowerCase()}`] = links
       }
-      else if(value[0] === 'Vídeo'){
+      else if(value[0] === 'Vídeo' || value[0] === 'Documento' || value[0] === 'Link'){
         contentSession[`${value[0].toLowerCase()}`] = this.splitLinks(value[1])
       }
       else{
@@ -60,6 +61,7 @@ class Session{
   }
 
   splitLinks(links){
-    return links.includes(',') ? links.split(',') : [links]
+    const separateLinks = links.includes(',') ? links.split(',') : [links]
+    return separateLinks.map(link => link.trim())
   }
 }

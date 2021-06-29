@@ -21,14 +21,21 @@ class DB{
     }
   }
   getSession(data){
-    const session = this.connect.getDocument(`clasesMuestra3/${data.session}`)
-    return session
+    try{
+      const session = this.connect.getDocument(`clasesMuestra3/${data.session}`)
+      return session
+    }
+    catch(e){
+      return null
+    }
   }
   createSession(data){
     this.connect.createDocument(`clasesMuestra3/${data.session}`, {data})
   }
   deteleSession(){
     // TODO
+    // Añadir una lista de personas que puedan borrar
+    return null
   }
   updateSession(data){
     this.connect.updateDocument(`clasesMuestra3/${data.session}`, {data})
