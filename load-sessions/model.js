@@ -22,19 +22,26 @@ class Session{
       grade: data.getRange('F3').getValue(),
       hours: data.getRange('F5').getValue(),
       title: data.getRange('C6').getValue(),
-      purposes: data.getRange('C8').getValue()
+      purposes: data.getRange('C8').getValue(),
+      type: this.numberSession,
+      order: data.getRange(`B17:B${lastRow}`).getValues().map(ind => ind[0].toLowerCase())
     }
     dataSession['content'] = this.process(data.getRange(`B17:C${lastRow}`).getValues())
     return dataSession
   }
+
   process(content){
     const contentSession = {}
     content.forEach(value =>{
-      if(value[0] === 'Diagrama|Imagen'){
+      if(value[0] === 'Diagrama|Imagen' || value[0] === 'Vídeo'){
         const links = this.trasnformLinksImg(value[1])
         contentSession[`${value[0].toLowerCase()}`] = links
       }
-      else if(value[0] === 'Vídeo' || value[0] === 'Documento' || value[0] === 'Link'){
+      else if(value[0] === 'Documento'){
+        contentSession[`${value[0].toLowerCase()}`] = this.splitLinks(value[1])
+                                                          .map(url => `${url}?embedded=true`)
+      }
+      else if(value[0] === 'Link' || value[0] === 'Presentación'){
         contentSession[`${value[0].toLowerCase()}`] = this.splitLinks(value[1])
       }
       else{
@@ -44,13 +51,18 @@ class Session{
     return contentSession
   }
   
+  getId(link, limit){
+    const index = ['d/', limit].map(ind => link.indexOf(ind))
+    const id = link.substring(index[0]+2, index[1])
+    return id
+  }
+
   trasnformLinksImg(links){
     const linksArray = this.splitLinks(links)
     const linksT = []
     linksArray.forEach(link =>{
         if(link.includes('drive.google.com')){
-          const indices = ['d/', '/view'].map(ind => link.indexOf(ind))
-          const idImage = link.substring(indices[0]+2,indices[1])
+          const idImage = this.getId(link, '/view')
           linksT.push(`https://drive.google.com/uc?export=view&id=${idImage}`)
         }
         else{
