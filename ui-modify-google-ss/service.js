@@ -68,16 +68,28 @@ class Send{
     }
 }
 
-const sendSession = () =>{
-  const dataRequest = {
-    nameFuncion: 'readPeticion',
-    parameters: [{
-      id: `${SpreadsheetApp.getActiveSpreadsheet().getId()}`, 
-      name: defineSheet().getSheetName()
-    }],
-    method: 'post'
+const sendSession = async () =>{
+  const message = (msj) => getUi().alert(msj)
+  try{
+    const dataRequest = {
+      nameFuncion: 'readPeticion',
+      parameters: [{
+        id: `${SpreadsheetApp.getActiveSpreadsheet().getId()}`, 
+        nameSheet: defineSheet().getSheetName(),
+        userEmail: Session.getActiveUser().getEmail(),
+        nameBook: SpreadsheetApp.getActive().getName(),
+        erase: false,
+      }],
+      method: 'post'
+    }
+    const req = await new Send(dataRequest).doRequest()
+    Logger.log(req)
+    message(req.response.result)
   }
-  const req = new Send(dataRequest).doRequest()
+  catch(e){
+    message(e)
+  }
+  
 }
 
 const insertVideo = () => new Row('Vídeo').create()
