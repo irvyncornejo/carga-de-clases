@@ -1,7 +1,9 @@
 class Session{
   constructor(e){
-    this.numberSession = e.name
+    this.numberSession = e.nameSheet
     this.ss = SpreadsheetApp.openById(e.id)
+    this.userEmail = e.userEmail
+    this.nameBook = e.nameBook
   }
   create(){
     const dataSession = this.getSession()
@@ -14,17 +16,20 @@ class Session{
   getSession(){
     const data = this.validate()
     const lastRow = data.getLastRow()
+    const grade = data.getRange('F3').getValue().replace('°', '')
+    const section = this.getSection(grade)
     const dataSession = {
       course: data.getRange('C2').getValue(),
       teachers: data.getRange('C3:C4').getValues().map(teacher => teacher[0]),
       session: data.getRange('C5').getValue(),
       period: data.getRange('F2').getValue(),
-      grade: data.getRange('F3').getValue(),
+      grade: Object.keys(section).includes('area') ? `${grade}${section.area.substring(1)}` : grade,
       hours: data.getRange('F5').getValue(),
       title: data.getRange('C6').getValue(),
       purposes: data.getRange('C8').getValue(),
       type: this.numberSession,
-      order: data.getRange(`B17:B${lastRow}`).getValues().map(ind => ind[0].toLowerCase())
+      order: data.getRange(`B17:B${lastRow}`).getValues().map(ind => ind[0].toLowerCase()),
+      section: section.section
     }
     dataSession['content'] = this.process(data.getRange(`B17:C${lastRow}`).getValues())
     return dataSession
@@ -76,4 +81,19 @@ class Session{
     const separateLinks = links.includes(',') ? links.split(',') : [links]
     return separateLinks.map(link => link.trim())
   }
+
+  getSection(grade){
+    const listNameBook = this.nameBook.split('|')
+                            .map(elem => elem.trim())
+    return listNameBook[1].toLowerCase() === 'preparatoria' && grade == 6
+                              ? {area: this.getArea(listNameBook[2]), section: listNameBook[1].toLowerCase()}
+                              : {section: listNameBook[1].toLowerCase()}
+  }
+
+  getArea(area){
+    const rex = /[A1-A2]/
+    const indexArea = area.search(rex)
+    return indexArea > 1 ? area.substring(indexArea) : null
+  }
+
 }

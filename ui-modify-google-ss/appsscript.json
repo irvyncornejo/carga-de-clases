@@ -3,20 +3,13 @@
   "dependencies": {
   },
   "exceptionLogging": "STACKDRIVER",
-  "oauthScopes": ["https://www.googleapis.com/auth/script.container.ui", "https://www.googleapis.com/auth/spreadsheets.currentonly", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/script.external_request"],
+  "oauthScopes": ["https://www.googleapis.com/auth/script.container.ui", "https://www.googleapis.com/auth/spreadsheets.currentonly", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/script.external_request", "https://www.googleapis.com/auth/userinfo.email"],
   "runtimeVersion": "V8",
   "sheets": {
     "macros": [{
-      "menuName": "ins",
-      "functionName": "ins",
-      "defaultShortcut": "Ctrl+Alt+Shift+3"
-    }, {
-      "menuName": "bordes",
-      "functionName": "bordes",
-      "defaultShortcut": "Ctrl+Alt+Shift+5"
-    }, {
-      "menuName": "6",
-      "functionName": "_6"
+      "menuName": "borrar",
+      "functionName": "clearCell",
+      "defaultShortcut": "Ctrl+Alt+Shift+0"
     }]
   }
 }
