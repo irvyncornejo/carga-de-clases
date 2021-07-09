@@ -1,7 +1,7 @@
 const defineSheet = () => SpreadsheetApp.getActiveSheet()
 const getUi = () => SpreadsheetApp.getUi()
 
-const onOpen = (e) => {
+const onOpen = (e) => { 
   const ui = getUi()
   try {
     const ss = defineSheet()
