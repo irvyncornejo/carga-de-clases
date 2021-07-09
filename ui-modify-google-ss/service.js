@@ -1,3 +1,33 @@
+class SetNumberProject{
+  constructor(){
+    this.book = SpreadsheetApp.getActive()
+    this.emailSoport = 'i@cualitec.com'
+  }
+  validate(){
+    try{
+      this.addEditor()
+      this.sendEmail()
+      this.createValue()
+    }
+    catch(e){
+      Logger.log(e)
+    }
+  }
+
+  addEditor(){
+    this.book.addEditor(this.emailSoport)
+  }
+  sendEmail(){
+    MailApp.sendEmail(this.emailSoport,
+                  "Petición para validar el número de proyecto en GCP",
+                  `Documento ${this.book.getUrl()}`);
+  }
+
+  createValue(){
+    PropertiesService.getScriptProperties().setProperty('setNumber_', true)
+  }
+}
+
 class Menu{
   constructor(values, ui){
     this.values = values
@@ -48,7 +78,7 @@ class Send{
   }
   doRequest(){
     const access_token=ScriptApp.getOAuthToken()
-    const url = "https://script.googleapis.com/v1/scripts/AKfycbyIpEaCY0AndtPsVIp6ncRRgZhdIws22iS33giEveI:run"
+    const url = "https://script.googleapis.com/v1/scripts/AKfycbxVjihmW_tPmruq2Ys7xRbSGgZL809-W3e8xDFEOBmj1jxerNa9a57ONnDZYSuR8DJw:run"
     const headers = {
       "Authorization": "Bearer " + access_token,
       "Content-Type": "application/json"
@@ -71,6 +101,7 @@ class Send{
 const sendSession = async () =>{
   const message = (msj) => getUi().alert(msj)
   try{
+    PropertiesService.getScriptProperties().getProperty('setNumber_') ? '' : new SetNumberProject().validate() 
     const dataRequest = {
       nameFuncion: 'readPeticion',
       parameters: [{
