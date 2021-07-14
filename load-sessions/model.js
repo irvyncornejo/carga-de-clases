@@ -29,13 +29,14 @@ class Session{
       purposes: data.getRange('C8').getValue(),
       type: this.numberSession,
       order: data.getRange(`B17:B${lastRow}`).getValues().map(ind => ind[0].toLowerCase()),
-      section: section.section
+      section: section.section,
+      previousKnowledge: data.getRange('H4').getValue()
     }
-    dataSession['content'] = this.process(data.getRange(`B17:C${lastRow}`).getValues())
+    dataSession['content'] = this.processLinks(data.getRange(`B17:C${lastRow}`).getValues())
     return dataSession
   }
 
-  process(content){
+  processLinks(content){
     const contentSession = {}
     content.forEach(value =>{
       if(value[0] === 'Diagrama|Imagen' || value[0] === 'Vídeo'){

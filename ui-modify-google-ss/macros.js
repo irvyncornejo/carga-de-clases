@@ -1,4 +1,4 @@
 const clearCell = () => {
-  var spreadsheet = SpreadsheetApp.getActive();
+  var spreadsheet = SpreadsheetApp.getActive()
   spreadsheet.getCurrentCell().setValue('')
-};
+}
