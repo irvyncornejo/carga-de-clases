@@ -6,7 +6,7 @@ const readPeticion = (e) =>{
     Logger.log(e)
     const dataSession = new Session(e).create()
     const db = new DB().sessionCreate(dataSession)
-    return 'Escritura éxitosa'
+    return db
   }
   catch(e){
     return `Válida que los datos sean correctos | ${e}`

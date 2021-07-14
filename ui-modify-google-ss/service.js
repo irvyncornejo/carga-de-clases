@@ -1,3 +1,99 @@
+class FoldersSession{
+  constructor(){
+    this.idFolderRefe = principalSheet().getSheetByName('Referencia').getRange('B3')
+    this.IDFOLDER = IDFOLDER
+  }
+  getBucket(id){
+    return DriveApp.getFolderById(id)
+  }
+  create(mainName, secondaryName){
+    if(mainName){
+      const foldersName = this.getFolders()
+      const existsId = this.idFolderRefe.getValue().length > 10
+      foldersName.includes(mainName) || existsId
+        ? this.setNameFolder(this.idFolderRefe.getValue(), mainName)
+        : this.createMainFolder(mainName)
+    }
+    if(secondaryName){
+      const cellValueIdFolder = defineSheet().getRange('H9')
+      const existsId = cellValueIdFolder.getValue().length > 10
+      const foldersName = this.getFolders(this.idFolderRefe.getValue())
+      foldersName.includes(secondaryName) || existsId
+        ? this.setNameFolder(cellValueIdFolder.getValue(), defineSheet().getSheetName())
+        : this.createSecondFolder(secondaryName, this.idFolderRefe.getValue(), cellValueIdFolder)
+    }
+  }
+  getFolders(id=false){
+    const bucket = id ? this.getBucket(id) : this.getBucket(this.IDFOLDER)
+    const foldersName = []
+    const folders = bucket.getFolders()
+    while (folders.hasNext()){
+      let folderName = folders.next()
+      foldersName.push(`${folderName}`)
+    }
+    return foldersName
+  }
+  createMainFolder(mainName){
+    const bucket = this.getBucket(this.IDFOLDER)
+    const folderId = bucket.createFolder(mainName).getId()
+    this.idFolderRefe.setValue(`${folderId}`)
+    return folderId
+  }
+  setNameFolder(id, mainName){
+    DriveApp.getFolderById(id).setName(mainName)
+  }
+  createSecondFolder(name, id, cell){
+    const bucket = this.getBucket(id)
+    const folderId = bucket.createFolder(name).getId()
+    cell.setValue(`${folderId}`)
+  }
+}
+
+class Examples{
+  constructor(ss){
+    this.ss = ss
+    this.ui = getUi()
+  }
+  view(range, value){
+    const example = examples[`${value}`]
+    this.ui.alert(example)
+    this.setValues(range, value)
+  }
+  setValues(range, value){
+    this.ss.getRange(range).setValue(value)
+  }
+}
+
+class SetName{
+  constructor(ss){
+    this.ss = ss
+  }
+  sheet(){
+    const values = ['C5' , 'D5'].map(range => this.ss.getRange(range).getValue())
+    this.ss.setName(`${values[1]}-${values[0]}`)
+    return `${values[1]}-${values[0]}`
+  }
+  book(){
+    const book = SpreadsheetApp.getActive()
+    const nameList = this.ss.getRange('B2:D2')
+    const name = nameList.getValues()[0].join(' | ')
+    book.rename(name)
+    return name
+  }
+}
+
+class Help{
+  constructor(){
+    this.ui = getUi()
+  }
+  open(){
+    const htmlOutput = HtmlService
+      .createHtmlOutputFromFile('index')
+      .setTitle('Taxonomia Bloom')
+    this.ui.showSidebar(htmlOutput)
+  }
+}
+
 class SetNumberProject{
   constructor(){
     this.book = SpreadsheetApp.getActive()
@@ -78,7 +174,7 @@ class Send{
   }
   doRequest(){
     const access_token=ScriptApp.getOAuthToken()
-    const url = "https://script.googleapis.com/v1/scripts/AKfycbxVjihmW_tPmruq2Ys7xRbSGgZL809-W3e8xDFEOBmj1jxerNa9a57ONnDZYSuR8DJw:run"
+    const url = URLAPI
     const headers = {
       "Authorization": "Bearer " + access_token,
       "Content-Type": "application/json"
@@ -114,7 +210,6 @@ const sendSession = async () =>{
       method: 'post'
     }
     const req = await new Send(dataRequest).doRequest()
-    Logger.log(req)
     message(req.response.result)
   }
   catch(e){
@@ -122,12 +217,5 @@ const sendSession = async () =>{
   }
   
 }
-
-const insertVideo = () => new Row('Vídeo').create()
-const insertImage = () => new Row('Diagrama|Imagen').create()
-const insertDoc = () => new Row('Documento').create()
-const insertPresentation = () => new Row('Presentación').create()
-const insertText = () => new Row('Texto').create()
-const insertLink = () => new Row('Link').create()
 
 

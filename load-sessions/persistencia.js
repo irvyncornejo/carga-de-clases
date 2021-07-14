@@ -19,10 +19,11 @@ class DB{
     else{
       this.createSession(data)
     }
+    return `Escritura éxitosa de la sesión ${data.session}`
   }
   getSession(data){
     try{
-      const session = this.connect.getDocument(`clasesMuestra3/${data.session}`)
+      const session = this.connect.getDocument(`${data.section}-${data.grade}/${data.session}`)
       return session
     }
     catch(e){
@@ -30,7 +31,7 @@ class DB{
     }
   }
   createSession(data){
-    this.connect.createDocument(`clasesMuestra3/${data.session}`, {data})
+    this.connect.createDocument(`${data.section}-${data.grade}/${data.session}`, {data})
   }
   deteleSession(){
     // TODO
@@ -38,6 +39,6 @@ class DB{
     return null
   }
   updateSession(data){
-    this.connect.updateDocument(`clasesMuestra3/${data.session}`, {data})
+    this.connect.updateDocument(`${data.section}-${data.grade}/${data.session}`, {data})
   }
 }
