@@ -9,6 +9,7 @@ const readPeticion = (e) =>{
     return db
   }
   catch(e){
+    console.log(e)
     return `Válida que los datos sean correctos | ${e}`
   }
 }
