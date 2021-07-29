@@ -1,0 +1,11 @@
+{
+	"data":{
+		"group":"6010",
+		"sessionName":"Uso de GPIO 1",
+		"nameDoc":"description",
+		"description":{
+			"criterios":["Asistencia","Programación", "Creatividad"],
+			"group":"6010"
+		}
+	}
+}
